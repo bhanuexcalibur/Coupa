@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coupa x Bhanu Kumar · Proof of Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:     #080a0d;
+  --bg2:    #0d1017;
+  --bg3:    #12161e;
+  --bg4:    #181d27;
+  --bg5:    #1e2431;
+  --bdr:    rgba(255,255,255,0.06);
+  --bmd:    rgba(255,255,255,0.11);
+  --blg:    rgba(255,255,255,0.18);
+  --t1:     #eef0f3;
+  --t2:     #8d9aad;
+  --t3:     #424e60;
+  --cp:     #FF6B2B;
+  --cpdim:  rgba(255,107,43,0.1);
+  --cpglo:  rgba(255,107,43,0.2);
+  --cpt:    #ff8f5c;
+  --navy:   #1e3a5f;
+  --blue:   #3d6fa8;
+  --bdim:   rgba(61,111,168,0.1);
+  --bt:     #6ea3e0;
+  --grn:    #22c08a;
+  --gdim:   rgba(34,192,138,0.09);
+  --gt:     #42d4a0;
+  --amb:    #f0a020;
+  --adim:   rgba(240,160,32,0.09);
+  --at:     #f5bc55;
+  --red:    #e05050;
+  --rddim:  rgba(224,80,80,0.09);
+  --rdt:    #f07070;
+}
+
+html{scroll-behavior:smooth;scroll-padding-top:62px}
+body{
+  background:var(--bg);color:var(--t1);
+  font-family:'Lora',Georgia,serif;font-size:16px;
+  line-height:1.78;-webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* reading bar */
+#rbar{position:fixed;top:0;left:0;height:3px;background:var(--cp);z-index:999;width:0;transition:width .1s linear}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(8,10,13,0.93);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--bdr);padding:0 5vw;
+}
+.nav-i{
+  max-width:1180px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  height:60px;gap:16px;
+}
+.nav-logo{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;
+  color:var(--t1);letter-spacing:.05em;white-space:nowrap;flex-shrink:0;
+}
+.nav-logo .sep{color:var(--t3);margin:0 8px}
+.nav-logo .hi{color:var(--cp)}
+.nav-links{display:flex;gap:4px;flex-wrap:nowrap}
+.np{
+  font-family:'Syne',sans-serif;font-size:11.5px;font-weight:500;
+  padding:5px 14px;border-radius:100px;border:1px solid var(--bdr);
+  color:var(--t2);background:transparent;text-decoration:none;
+  transition:all .14s;white-space:nowrap;
+}
+.np:hover{border-color:var(--bmd);color:var(--t1)}
+.np.cta{background:var(--cp);border-color:var(--cp);color:#fff}
+.np.cta:hover{opacity:.87}
+
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;flex-shrink:0}
+.hbg span{display:block;width:20px;height:1.5px;background:var(--t1);border-radius:2px;transition:transform .3s,opacity .3s}
+.hbg.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hbg.open span:nth-child(2){opacity:0}
+.hbg.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mob-menu{display:none;position:fixed;inset:0;top:60px;background:var(--bg);z-index:190;flex-direction:column;padding:32px 5vw;border-top:1px solid var(--bdr)}
+.mob-menu.open{display:flex}
+.mob-menu a{display:block;font-size:20px;font-family:'Syne',sans-serif;font-weight:700;color:var(--t1);text-decoration:none;padding:16px 0;border-bottom:1px solid var(--bdr)}
+.mob-menu a.cta-m{color:var(--cpt);border-bottom:none}
+@media(max-width:720px){.nav-links{display:none}.hbg{display:flex}}
+
+/* LAYOUT */
+.wrap{max-width:1180px;margin:0 auto;padding:0 5vw}
+section{padding:80px 0;border-bottom:1px solid var(--bdr)}
+
+/* COVER */
+.cover{
+  padding:100px 5vw 84px;
+  max-width:1180px;margin:0 auto;
+  position:relative;overflow:hidden;
+  border-bottom:1px solid var(--bdr);
+}
+.cover::after{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:600px;height:600px;
+  background:radial-gradient(circle,var(--cpglo) 0%,transparent 62%);
+  pointer-events:none;
+}
+.cover::before{
+  content:'';position:absolute;bottom:-100px;left:10%;
+  width:350px;height:350px;
+  background:radial-gradient(circle,rgba(61,111,168,0.07) 0%,transparent 65%);
+  pointer-events:none;
+}
+.c-kicker{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--t3);margin-bottom:30px;display:block;
+}
+.c-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(40px,7.5vw,90px);
+  font-weight:800;line-height:1.0;
+  letter-spacing:-.025em;color:var(--t1);
+  margin-bottom:26px;position:relative;z-index:1;
+}
+.c-title .ghost{
+  color:var(--t2);
+}
+.c-title .cp{color:var(--cp)}
+.c-sub{
+  font-size:clamp(15px,1.7vw,18px);color:var(--t2);
+  line-height:1.8;max-width:620px;margin-bottom:38px;
+  font-family:'Lora',serif;font-weight:400;
+  position:relative;z-index:1;
+}
+.c-sub strong{color:var(--t1);font-weight:500}
+.c-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--cpdim);color:var(--cpt);
+  border:1px solid rgba(255,107,43,.22);
+  font-family:'IBM Plex Mono',monospace;font-size:12px;
+  letter-spacing:.06em;padding:9px 18px;border-radius:8px;
+  margin-bottom:60px;position:relative;z-index:1;
+}
+.c-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--cp);display:inline-block}
+.c-footer{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  padding-top:28px;border-top:1px solid var(--bdr);flex-wrap:wrap;gap:20px;
+}
+.c-info{font-family:'Syne',sans-serif;font-size:13px;color:var(--t2);line-height:2}
+.c-info strong{display:block;font-size:14px;color:var(--t1);font-weight:600;margin-bottom:2px}
+.c-toc{display:flex;flex-direction:column;align-items:flex-end}
+.toc-a{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  color:var(--t3);line-height:2.3;text-decoration:none;
+  padding-right:14px;border-right:2px solid var(--cp);
+  transition:color .14s;letter-spacing:.03em;
+}
+.toc-a:hover{color:var(--t2)}
+
+/* SEC HEADER */
+.sec-ey{display:flex;align-items:center;gap:12px;margin-bottom:42px}
+.sec-n{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  color:var(--cpt);background:var(--cpdim);border:1px solid rgba(255,107,43,.2);
+  padding:3px 12px;border-radius:100px;letter-spacing:.08em;white-space:nowrap;
+}
+.sec-nm{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--t3);
+}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ─── SECTION 01: THE ANGLE ─── */
+.angle-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:720px){.angle-grid{grid-template-columns:1fr}}
+.angle-card{
+  background:var(--bg2);border:1px solid var(--bdr);
+  border-radius:14px;padding:32px;position:relative;overflow:hidden;
+}
+.angle-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--cp);opacity:.4;
+}
+.angle-card.full{grid-column:1/-1}
+.angle-card h3{
+  font-family:'Syne',sans-serif;font-size:19px;font-weight:700;
+  color:var(--t1);margin-bottom:14px;letter-spacing:-.01em;
+}
+.angle-card p{font-size:15px;color:var(--t2);line-height:1.8}
+.angle-card p strong{color:var(--t1);font-weight:500}
+.angle-tag{
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--cpt);
+  margin-bottom:12px;display:block;
+}
+
+/* ─── SECTION 02: MESSAGING AUDIT ─── */
+.audit-tabs{display:flex;gap:0;border:1px solid var(--bdr);border-radius:10px;overflow:hidden;margin-bottom:32px}
+.atab{
+  flex:1;padding:13px 20px;background:transparent;border:none;
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:600;
+  color:var(--t2);cursor:pointer;transition:all .18s;
+  border-right:1px solid var(--bdr);text-align:center;
+}
+.atab:last-child{border-right:none}
+.atab:hover{background:var(--bg3);color:var(--t1)}
+.atab.on{background:var(--bg3);color:var(--cpt);border-bottom:2px solid var(--cp)}
+.apanel{display:none}
+.apanel.on{display:block}
+
+.audit-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;
+}
+@media(max-width:700px){.audit-row{grid-template-columns:1fr}}
+.audit-box{
+  background:var(--bg3);border:1px solid var(--bdr);
+  border-radius:10px;padding:24px;
+}
+.audit-box h5{
+  font-family:'Syne',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:14px;
+}
+.audit-box h5.red{color:var(--rdt)}
+.audit-box h5.grn{color:var(--gt)}
+.audit-box ul{list-style:none;padding:0}
+.audit-box ul li{
+  font-size:14px;color:var(--t2);padding:8px 0;
+  border-bottom:1px solid var(--bdr);line-height:1.6;
+}
+.audit-box ul li:last-child{border-bottom:none}
+.audit-box ul li::before{content:'';margin-right:8px}
+.audit-box ul.bad li::before{content:'×';color:var(--red)}
+.audit-box ul.ok li::before{content:'→';color:var(--gt)}
+.rewrite-box{
+  background:var(--bg4);border:1px solid rgba(34,192,138,.18);
+  border-radius:10px;padding:24px;margin-top:8px;
+}
+.rewrite-box .label{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--gt);margin-bottom:10px;display:block;
+}
+.rewrite-box p{font-size:15px;color:var(--t1);line-height:1.78;font-style:italic}
+.why-box{
+  background:var(--bg2);border:1px solid var(--bdr);
+  border-radius:10px;padding:20px 24px;margin-top:16px;
+}
+.why-box .wl{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  color:var(--bt);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;display:block;
+}
+.why-box p{font-size:13.5px;color:var(--t2);line-height:1.7}
+
+/* ─── SECTION 03: ICP PERSONAS ─── */
+.ptabs{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+.ptab{
+  padding:12px 20px;background:var(--bg3);border:1px solid var(--bdr);
+  border-radius:10px;cursor:pointer;transition:all .18s;text-align:left;
+}
+.ptab:hover{border-color:var(--bmd)}
+.ptab.on{border-color:var(--cp);background:var(--cpdim)}
+.ptab-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);letter-spacing:.1em;margin-bottom:4px}
+.ptab-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--t1)}
+.ptab-role{font-size:12px;color:var(--t2);margin-top:2px}
+.ptab.on .ptab-name{color:var(--cpt)}
+
+.pcard{background:var(--bg2);border:1px solid var(--bdr);border-radius:14px;padding:32px}
+.pcard-hdr{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--bdr)}
+.pcard-hdr .tag{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  color:var(--cpt);background:var(--cpdim);border:1px solid rgba(255,107,43,.2);
+  padding:3px 10px;border-radius:4px;letter-spacing:.08em;display:inline-block;margin-bottom:10px;
+}
+.pcard-hdr h4{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--t1);margin-bottom:4px}
+.pcard-hdr p{font-size:13.5px;color:var(--t2)}
+.pcard-body{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:680px){.pcard-body{grid-template-columns:1fr}}
+.pcard-col h5{
+  font-family:'Syne',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:12px;
+}
+.pcard-col ul{list-style:none}
+.pcard-col ul li{
+  font-size:14px;color:var(--t2);padding:9px 0;
+  border-bottom:1px solid var(--bdr);line-height:1.6;
+}
+.pcard-col ul li:last-child{border-bottom:none}
+.pcard-msg{
+  grid-column:1/-1;
+  background:var(--bg4);border:1px solid rgba(255,107,43,.15);
+  border-radius:10px;padding:20px 24px;
+}
+.pcard-msg h5{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--cpt);margin-bottom:10px;
+}
+.pcard-msg p{font-size:15px;color:var(--t1);font-style:italic;line-height:1.7}
+
+/* ─── SECTION 04: LAUNCH BRIEF ─── */
+.lbgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:720px){.lbgrid{grid-template-columns:1fr}}
+.lb-card{
+  background:var(--bg2);border:1px solid var(--bdr);
+  border-radius:12px;padding:28px;
+}
+.lb-card h4{
+  font-family:'Syne',sans-serif;font-size:16px;font-weight:700;
+  color:var(--t1);margin-bottom:14px;display:flex;align-items:center;gap:10px;
+}
+.lb-card h4 .ico{
+  width:30px;height:30px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;
+}
+.ico-blue{background:var(--bdim)}
+.ico-grn{background:var(--gdim)}
+.ico-amb{background:var(--adim)}
+.ico-cp{background:var(--cpdim)}
+.lb-card ul{list-style:none}
+.lb-card ul li{
+  font-size:14px;color:var(--t2);padding:8px 0;
+  border-bottom:1px solid var(--bdr);line-height:1.6;
+}
+.lb-card ul li:last-child{border-bottom:none}
+.lb-card ul li strong{color:var(--t1)}
+
+.timeline{margin-top:28px}
+.tl-row{display:flex;gap:0;margin-bottom:20px;position:relative}
+.tl-row::before{
+  content:'';position:absolute;left:60px;top:0;bottom:0;
+  width:1px;background:var(--bdr);
+}
+.tl-day{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  color:var(--cpt);width:55px;flex-shrink:0;padding-top:4px;
+}
+.tl-body{
+  background:var(--bg3);border:1px solid var(--bdr);
+  border-radius:8px;padding:16px 20px;flex:1;margin-left:20px;
+}
+.tl-body h5{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--t1);margin-bottom:6px}
+.tl-body p{font-size:13px;color:var(--t2);line-height:1.65}
+
+/* ─── SECTION 05: COMPETITIVE ─── */
+.comp-table{width:100%;border-collapse:collapse;border:1px solid var(--bdr);border-radius:12px;overflow:hidden}
+.comp-table th{
+  background:var(--bg3);font-family:'Syne',sans-serif;
+  font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--t2);padding:14px 18px;text-align:left;border-bottom:1px solid var(--bdr);
+}
+.comp-table th.hl{color:var(--cpt)}
+.comp-table td{
+  padding:14px 18px;font-size:14px;color:var(--t2);
+  border-bottom:1px solid var(--bdr);vertical-align:top;line-height:1.6;
+}
+.comp-table tr:last-child td{border-bottom:none}
+.comp-table td.hl{background:var(--cpdim);color:var(--t1)}
+.comp-table td.pos{color:var(--gt)}
+.comp-table td.neg{color:var(--rdt)}
+.comp-table td.neu{color:var(--at)}
+@media(max-width:700px){
+  .comp-table{font-size:12px}
+  .comp-table td,.comp-table th{padding:10px 12px}
+}
+
+/* ─── SECTION 06: OTHER WORK ─── */
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.wcard{
+  background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;
+  padding:28px;text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;gap:10px;
+  transition:border-color .18s,background .18s;
+}
+.wcard:hover{border-color:var(--bmd);background:var(--bg3)}
+.wcard-tag{
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;
+  color:var(--t3);letter-spacing:.06em;
+}
+.wcard h4{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--t1);line-height:1.3}
+.wcard p{font-size:13.5px;color:var(--t2);line-height:1.65;flex:1}
+.warr{color:var(--cp);font-size:18px;margin-top:4px}
+
+/* SIGNATURE */
+.sig{
+  padding:64px 0;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:28px;
+}
+.sig-name{
+  font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,44px);
+  font-weight:800;color:var(--t1);letter-spacing:-.02em;margin-bottom:8px;
+}
+.sig-name span{color:var(--cp)}
+.sig-det{font-size:14px;color:var(--t2);line-height:2}
+.sig-det a{color:var(--t2);text-decoration:none;transition:color .14s}
+.sig-det a:hover{color:var(--t1)}
+.sig-btns{display:flex;gap:12px;flex-wrap:wrap}
+.sbtn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:600;
+  padding:12px 24px;border-radius:8px;text-decoration:none;
+  transition:opacity .15s;
+}
+.sbtn.pri{background:var(--cp);color:#fff}
+.sbtn.pri:hover{opacity:.87}
+.sbtn.ghost{
+  background:transparent;color:var(--t1);
+  border:1px solid var(--bmd);
+}
+.sbtn.ghost:hover{border-color:var(--blg)}
+
+/* big heading style inside sections */
+.sh{
+  font-family:'Syne',sans-serif;font-size:clamp(26px,3.5vw,40px);
+  font-weight:800;color:var(--t1);letter-spacing:-.02em;
+  margin-bottom:12px;line-height:1.1;
+}
+.sh .cp{color:var(--cp)}
+.sh-sub{font-size:clamp(15px,1.6vw,17px);color:var(--t2);max-width:640px;margin-bottom:40px;line-height:1.8}
+.sh-sub strong{color:var(--t1)}
+
+/* callout */
+.callout{
+  background:var(--bg3);border-left:3px solid var(--cp);
+  border-radius:0 10px 10px 0;padding:20px 24px;
+  margin:24px 0;font-size:15px;color:var(--t2);line-height:1.75;
+}
+.callout strong{color:var(--t1)}
+
+/* quote pull */
+.pull{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:clamp(18px,2.2vw,24px);color:var(--t1);
+  border-left:3px solid var(--cp);padding:20px 28px;
+  margin:32px 0;line-height:1.65;
+}
+
+/* metric chips */
+.metrics{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0}
+.chip{
+  background:var(--bg3);border:1px solid var(--bdr);
+  border-radius:10px;padding:16px 22px;text-align:center;
+}
+.chip-val{
+  font-family:'Syne',sans-serif;font-size:28px;font-weight:800;
+  color:var(--cpt);display:block;line-height:1;margin-bottom:4px;
+}
+.chip-lab{font-size:12px;color:var(--t2);font-family:'IBM Plex Mono',monospace;letter-spacing:.06em}
+</style>
+</head>
+<body>
+
+<div id="rbar"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-i">
+    <div class="nav-logo">
+      Coupa <span class="sep">/</span> <span class="hi">Bhanu Kumar</span>
+    </div>
+    <div class="nav-links">
+      <a class="np" href="#angle">The Angle</a>
+      <a class="np" href="#messaging">Messaging Audit</a>
+      <a class="np" href="#icp">ICP Map</a>
+      <a class="np" href="#launch">Launch Brief</a>
+      <a class="np" href="#competitive">Competitive</a>
+      <a class="np cta" href="#work">Other Work</a>
+    </div>
+    <button class="hbg" id="hbg" onclick="toggleMob()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob">
+  <a href="#angle" onclick="closeMob()">The Angle</a>
+  <a href="#messaging" onclick="closeMob()">Messaging Audit</a>
+  <a href="#icp" onclick="closeMob()">ICP Map</a>
+  <a href="#launch" onclick="closeMob()">Launch Brief</a>
+  <a href="#competitive" onclick="closeMob()">Competitive</a>
+  <a href="#work" onclick="closeMob()" class="cta-m">Other Work &rarr;</a>
+</div>
+
+<!-- COVER -->
+<div class="cover">
+  <span class="c-kicker">Proof of Work &nbsp;&#183;&nbsp; Product Marketing &nbsp;&#183;&nbsp; Strategic Programs</span>
+  <h1 class="c-title">
+    Spend is data.<br>
+    <span class="cp">Data needs</span> a story.<br>
+    <span class="ghost">Stories close deals.</span>
+  </h1>
+  <p class="c-sub">
+    Coupa sits on <strong>$8 trillion in community spend data</strong> and a platform that's evolving faster than most buyers can track. The gap between what that actually means and what the market currently understands is where PMM lives. This is where I'd work.
+  </p>
+  <div class="c-badge">
+    <span class="dot"></span>
+    Coupa &nbsp;&middot;&nbsp; Strategic Programs &nbsp;&middot;&nbsp; Bhanu Kumar
+  </div>
+  <div class="c-footer">
+    <div class="c-info">
+      <strong>Bhanu Kumar</strong>
+      Product Marketer &nbsp;&middot;&nbsp; B2B SaaS<br>
+      <a href="mailto:bhanukumar0902@gmail.com">bhanukumar0902@gmail.com</a>
+    </div>
+    <div class="c-toc">
+      <a class="toc-a" href="#angle">01 The Angle</a>
+      <a class="toc-a" href="#messaging">02 Messaging Audit</a>
+      <a class="toc-a" href="#icp">03 ICP Map</a>
+      <a class="toc-a" href="#launch">04 Launch Brief</a>
+      <a class="toc-a" href="#competitive">05 Competitive</a>
+      <a class="toc-a" href="#work">06 Other Work</a>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 01: THE ANGLE -->
+<section id="angle">
+  <div class="wrap">
+    <div class="sec-ey reveal">
+      <span class="sec-n">Part 01</span>
+      <span class="sec-nm">The Angle</span>
+    </div>
+
+    <h2 class="sh reveal">Coupa's real PMM challenge isn't <span class="cp">messaging.</span><br>It's translation.</h2>
+    <p class="sh-sub reveal">Coupa has one of the most defensible data moats in enterprise software. The question is whether it's being communicated in a way that procurement leaders, CFOs, and supply chain VPs actually feel — not just understand.</p>
+
+    <div class="angle-grid reveal">
+      <div class="angle-card">
+        <span class="angle-tag">What Coupa actually has</span>
+        <h3>The community data advantage is real, but underplayed</h3>
+        <p>$8 trillion in spend data across 10M+ buyers and suppliers. Coupa's community intelligence isn't just a feature — it's the reason its agentic AI recommendations carry actual weight. When Coupa tells a CPO that a supplier is high-risk, it's informed by anonymised signals from thousands of other companies running comparable spend. <strong>No other platform has that.</strong> But right now, the way this gets communicated often sounds like a feature spec. It needs to sound like an insurance policy.</p>
+      </div>
+      <div class="angle-card">
+        <span class="angle-tag">The positioning gap</span>
+        <h3>Everyone says "AI." Not everyone means it the same way.</h3>
+        <p>Post-Thoma Bravo, Coupa is pushing hard on agentic AI, autonomous spend management, and the "living trade network" vision. Inspiring internally. But buyers are drowning in AI claims from every vendor in their stack. The PMM job here is to make Coupa's AI claim <strong>specific, verifiable, and tied to a business outcome</strong> — not just a headline. "Community-generated AI" is a great differentiator, but it needs a proof point the CFO can quote in a board meeting.</p>
+      </div>
+      <div class="angle-card">
+        <span class="angle-tag">The Inspire 2025 signal</span>
+        <h3>Coupa is repositioning from spend tool to trade network. Most of the market hasn't caught up.</h3>
+        <p>Leagh Turner's "we're not really a software company, we're a community" framing from Inspire 2025 is the clearest articulation of what Coupa is actually building. The Cirtuo acquisition, the Scoutbee acquisition for supplier intelligence, the Salesforce AppExchange integration — these aren't product updates. They're positioning moves. <strong>Strategic programs PMM exists to connect these dots for the market before analysts do it for them.</strong></p>
+      </div>
+      <div class="angle-card">
+        <span class="angle-tag">What I'd bring</span>
+        <h3>Cross-functional coordination for programs that actually land</h3>
+        <p>Strategic Programs isn't just campaign work. It's launch coordination, event content, cross-team enablement, and the behind-the-scenes muscle that makes PMM output usable rather than decorative. I've worked across content, positioning, competitive, and campaign layers — which means I can take a product announcement from brief to field-ready collateral without needing six hand-offs to get there.</p>
+      </div>
+    </div>
+
+    <div class="callout reveal">
+      <strong>One thing I noticed:</strong> Coupa's homepage currently leads with "Make Margins Multiply" — which is a strong CFO hook. But the path from that headline to a concrete product story for a procurement director or a supply chain VP is longer than it needs to be. That's the kind of gap strategic programs should close.
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 02: MESSAGING AUDIT -->
+<section id="messaging">
+  <div class="wrap">
+    <div class="sec-ey reveal">
+      <span class="sec-n">Part 02</span>
+      <span class="sec-nm">Messaging Audit</span>
+    </div>
+
+    <h2 class="sh reveal">Three products. <span class="cp">Three messaging gaps.</span></h2>
+    <p class="sh-sub reveal">This is a quick audit of how Coupa currently positions three of its flagship areas — and where the language could do more work. Not a takedown: a set of things I'd want to pressure-test if I were briefing the team on what to fix first.</p>
+
+    <div class="audit-tabs reveal" id="atabs">
+      <button class="atab on" onclick="swATab('ai',this)">Community AI</button>
+      <button class="atab" onclick="swATab('supply',this)">Supply Chain</button>
+      <button class="atab" onclick="swATab('contracts',this)">Contract Intelligence</button>
+    </div>
+
+    <!-- AI PANEL -->
+    <div class="apanel on" id="ap-ai">
+      <div class="audit-row">
+        <div class="audit-box">
+          <h5 class="red">What it currently sounds like</h5>
+          <ul class="bad">
+            <li>"Community-generated AI" as a label without a mechanism — buyers don't know what it means in practice</li>
+            <li>AI framed as predictions and prescriptions — still sounds like a dashboard feature</li>
+            <li>No clear answer to the question: "Why is Coupa's AI better than my ERP vendor's AI?"</li>
+          </ul>
+        </div>
+        <div class="audit-box">
+          <h5 class="grn">What it could sound like</h5>
+          <ul class="ok">
+            <li>Lead with the data source: $8T of anonymised spend, 10M buyers and suppliers — that's what trains the model</li>
+            <li>Make the recommendation tangible: "Coupa flagged a supplier risk before three of our top accounts felt it" is the story</li>
+            <li>The counter-positioning to ERP AI: Coupa's model is trained on spend, not support tickets</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rewrite-box">
+        <span class="label">Proposed reframe &mdash; elevator version</span>
+        <p>"Most AI tools learn from your data. Coupa's AI learns from $8 trillion in spend decisions made by thousands of companies before you. When it tells you a supplier is about to be a problem, it's probably already been a problem somewhere else."</p>
+      </div>
+      <div class="why-box">
+        <span class="wl">Why this works</span>
+        <p>It leads with the moat (community data), delivers the proof (other companies have already stress-tested this), and ties back to the outcome a CPO cares about (supply risk, not software features). No technical jargon. No competitor callout needed.</p>
+      </div>
+    </div>
+
+    <!-- SUPPLY CHAIN PANEL -->
+    <div class="apanel" id="ap-supply">
+      <div class="audit-row">
+        <div class="audit-box">
+          <h5 class="red">What it currently sounds like</h5>
+          <ul class="bad">
+            <li>Supply chain messaging leans heavily on "resilience" and "visibility" — words every vendor uses</li>
+            <li>The LLamasoft heritage (network design, demand modeling) isn't surfaced in a way that differentiates from point solutions</li>
+            <li>No clear before/after for what the supply chain team's day actually changes</li>
+          </ul>
+        </div>
+        <div class="audit-box">
+          <h5 class="grn">What it could sound like</h5>
+          <ul class="ok">
+            <li>Lead with the problem that's actually expensive: discovering a sourcing risk in the boardroom instead of in the model</li>
+            <li>The design-to-pay angle is the real differentiator — most competitors own one end but not both</li>
+            <li>Concrete use case: "We ran 40 network scenarios before the tariff decision. We picked the one that held."</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rewrite-box">
+        <span class="label">Proposed reframe &mdash; elevator version</span>
+        <p>"Supply chain tools tell you what happened. Coupa's design-to-pay platform helps you model what's about to happen — before you've committed the spend. It's the difference between reacting to a disruption and pricing it in before it lands."</p>
+      </div>
+      <div class="why-box">
+        <span class="wl">Why this works</span>
+        <p>The supply chain VP's fear isn't a bad dashboard. It's a board meeting where someone asks why the disruption wasn't caught earlier. This reframe speaks to that fear and positions Coupa's end-to-end model as the answer — not just another visibility layer.</p>
+      </div>
+    </div>
+
+    <!-- CONTRACTS PANEL -->
+    <div class="apanel" id="ap-contracts">
+      <div class="audit-row">
+        <div class="audit-box">
+          <h5 class="red">What it currently sounds like</h5>
+          <ul class="bad">
+            <li>Contract Intelligence is positioned as a legal/compliance tool — which buries the commercial value</li>
+            <li>"AI-powered clause recommendations" sounds like a legal word processor, not a spend control layer</li>
+            <li>No clear ICP: this could be legal, procurement, or finance — and right now it's trying to speak to all three at once</li>
+          </ul>
+        </div>
+        <div class="audit-box">
+          <h5 class="grn">What it could sound like</h5>
+          <ul class="ok">
+            <li>Frame it from procurement's side: every poorly-worded contract is a future spend leak waiting to happen</li>
+            <li>The Agentforce integration (Salesforce AppExchange) is a big deal — it means contracts live in the workflow, not in a silo</li>
+            <li>Lead with the moment it pays off: "The audit that didn't turn into a crisis"</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rewrite-box">
+        <span class="label">Proposed reframe &mdash; elevator version</span>
+        <p>"Every procurement contract is a promise about future spend. Coupa Contract Intelligence makes sure the promise you signed is the one you're actually keeping — and flags the gaps before your auditors do."</p>
+      </div>
+      <div class="why-box">
+        <span class="wl">Why this works</span>
+        <p>It brings contracts back into the spend conversation (where Coupa's positioning is strongest), gives the procurement buyer a personal stake in the outcome, and sets up the risk framing that makes a CFO pay attention. Legal sells fewer seats than compliance risk does.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 03: ICP MAP -->
+<section id="icp">
+  <div class="wrap">
+    <div class="sec-ey reveal">
+      <span class="sec-n">Part 03</span>
+      <span class="sec-nm">ICP Buyer Map</span>
+    </div>
+
+    <h2 class="sh reveal">One platform. <span class="cp">Three very different</span> reasons to care.</h2>
+    <p class="sh-sub reveal">Strategic programs PMM has to work across buyer types — product launches and event content need to land differently for a CPO than for a CFO. This is how I'd build the ICP map for Coupa's core enterprise buyers.</p>
+
+    <div class="ptabs reveal" id="ptabs"></div>
+    <div class="pcard reveal" id="pcard"></div>
+
+  </div>
+</section>
+
+<!-- SECTION 04: LAUNCH BRIEF -->
+<section id="launch">
+  <div class="wrap">
+    <div class="sec-ey reveal">
+      <span class="sec-n">Part 04</span>
+      <span class="sec-nm">Launch Brief</span>
+    </div>
+
+    <h2 class="sh reveal">Coupa Navi: <span class="cp">A worked launch brief</span></h2>
+    <p class="sh-sub reveal">Coupa Navi launched in September 2024 as a generative AI agent for real-time business query support. Here's the launch brief I'd have written. The structure is the same one I'd bring to any product launch at Coupa — regardless of the specific product or program.</p>
+
+    <div class="lbgrid reveal">
+      <div class="lb-card">
+        <h4>
+          <span class="ico ico-blue">🎯</span>
+          Launch Objective
+        </h4>
+        <ul>
+          <li><strong>Primary:</strong> Position Coupa Navi as the "co-pilot for procurement" — not a chatbot, but an agent that already knows your spend context</li>
+          <li><strong>Secondary:</strong> Differentiate from generic AI assistants by leading with the community data advantage</li>
+          <li><strong>Business metric:</strong> Drive Navi adoption among existing customers within 90 days of GA; reduce support ticket volume as a proxy metric</li>
+        </ul>
+      </div>
+      <div class="lb-card">
+        <h4>
+          <span class="ico ico-grn">👥</span>
+          Target Audiences
+        </h4>
+        <ul>
+          <li><strong>Tier 1:</strong> Current Coupa customers (VP Procurement, CPO) — activation, not acquisition</li>
+          <li><strong>Tier 2:</strong> Prospects in active pipeline — Navi as a deal-accelerating proof point</li>
+          <li><strong>Tier 3:</strong> Analysts and press — category definition moment ("autonomous procurement is real, and Coupa shipped it")</li>
+        </ul>
+      </div>
+      <div class="lb-card">
+        <h4>
+          <span class="ico ico-amb">✍️</span>
+          Key Messages by Audience
+        </h4>
+        <ul>
+          <li><strong>CPO:</strong> "Your team is spending time on questions your data already knows the answer to."</li>
+          <li><strong>CFO:</strong> "Faster, more accurate answers from procurement without more headcount."</li>
+          <li><strong>IT / Ops:</strong> "No integration project. It runs on your existing Coupa data."</li>
+        </ul>
+      </div>
+      <div class="lb-card">
+        <h4>
+          <span class="ico ico-cp">📦</span>
+          Deliverables Checklist
+        </h4>
+        <ul>
+          <li>One-pager for sales (not a data sheet — a conversation starter)</li>
+          <li>Objection-handling guide: "How is this different from asking my ERP?"</li>
+          <li>Customer launch email sequence: 2-touch, outcome-led</li>
+          <li>Event session framing for Inspire: demo-first, results-led</li>
+          <li>Competitive snapshot: vs. SAP Joule, vs. Oracle AI</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--t1);margin-top:48px;margin-bottom:20px">90-Day Launch Calendar</h3>
+
+    <div class="timeline reveal">
+      <div class="tl-row">
+        <div class="tl-day">Days 1–14</div>
+        <div class="tl-body">
+          <h5>Internal readiness</h5>
+          <p>Sales enablement session, battlecard finalized, FAQ doc shipped to CS team. Internal Slack launch moment with Navi demo clip — make the team feel it before external launch.</p>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-day">Days 15–30</div>
+        <div class="tl-body">
+          <h5>Customer-first launch</h5>
+          <p>Email to existing customers — outcome-led, no feature list. Early access invite for power users. Customer success team briefed to capture first use-case stories within 30 days.</p>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-day">Days 31–60</div>
+        <div class="tl-body">
+          <h5>Market activation</h5>
+          <p>Press and analyst briefings. Blog post from a customer, not from Coupa. LinkedIn campaign anchored to one specific use case (supplier risk query response time). Event integration at regional summits.</p>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-day">Days 61–90</div>
+        <div class="tl-body">
+          <h5>Proof and momentum</h5>
+          <p>First customer story published. Win/loss review with sales to see where Navi is showing up in deals. Retro with PMM team: what messaging landed, what didn't, what to carry into Inspire prep.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 05: COMPETITIVE -->
+<section id="competitive">
+  <div class="wrap">
+    <div class="sec-ey reveal">
+      <span class="sec-n">Part 05</span>
+      <span class="sec-nm">Competitive Landscape</span>
+    </div>
+
+    <h2 class="sh reveal">Where Coupa wins, <span class="cp">where it needs to sharpen</span></h2>
+    <p class="sh-sub reveal">A quick competitive snapshot across the four areas that come up most in enterprise spend management deals. This is the kind of table I'd keep maintained as a living document for the sales and field teams.</p>
+
+    <div class="reveal" style="overflow-x:auto">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th class="hl">Coupa</th>
+            <th>SAP Ariba</th>
+            <th>Oracle Fusion</th>
+            <th>Ivalua</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Community data advantage</strong></td>
+            <td class="hl pos">$8T spend network. Unique moat. Nobody else has this scale of anonymised data informing AI.</td>
+            <td class="neg">SAP network data exists but is siloed inside the ERP ecosystem. Doesn't inform AI at the same depth.</td>
+            <td class="neg">No comparable community layer. AI recommendations are model-trained, not network-trained.</td>
+            <td class="neu">Solid on flexibility, limited network intelligence. AI is rule-based rather than community-powered.</td>
+          </tr>
+          <tr>
+            <td><strong>Agentic AI / Autonomous spend</strong></td>
+            <td class="hl pos">Coupa Navi, Contract Intelligence, full agentic roadmap. One of the more credible AI visions in the category.</td>
+            <td class="neu">SAP Joule is in market but tightly coupled to S/4HANA. Strong for SAP shops, limited for mixed stacks.</td>
+            <td class="neg">Oracle AI is heavily ERP-first. Buyers outside Oracle ecosystem see limited benefit.</td>
+            <td class="neg">AI narrative lags behind. No agentic framework announced publicly.</td>
+          </tr>
+          <tr>
+            <td><strong>Supply chain to spend integration</strong></td>
+            <td class="hl pos">Design-to-pay is a genuine end-to-end claim. LLamasoft + BSM in one platform is rare.</td>
+            <td class="pos">Strong source-to-pay. Limited supply chain design capability.</td>
+            <td class="pos">Deep ERP integration. Supply chain planning strong. Not designed-to-pay in one flow.</td>
+            <td class="neg">Primarily procurement-focused. Supply chain design is not native.</td>
+          </tr>
+          <tr>
+            <td><strong>Ease of adoption / change management</strong></td>
+            <td class="hl pos">Generally rated above SAP/Oracle for UX. Lower implementation burden than legacy ERPs.</td>
+            <td class="neg">Historically complex. Ariba implementations have long timelines and heavy SI dependency.</td>
+            <td class="neg">Oracle Fusion requires significant IT investment. CFOs often underestimate TCO.</td>
+            <td class="pos">Flexible configuration. Mid-market friendly. Limited enterprise breadth.</td>
+          </tr>
+          <tr>
+            <td><strong>Analyst positioning</strong></td>
+            <td class="hl pos">IDC MarketScape Leader. Consistently strong in source-to-pay suites. Cirtuo acquisition strengthens category management.</td>
+            <td class="pos">Gartner MQ leader. Brand recognition is ceiling and floor — dominant in large SAP shops.</td>
+            <td class="pos">Strong in Oracle-native accounts. Less relevant in mixed or Coupa-native environments.</td>
+            <td class="neu">Niche leader recognition. Known for flexibility over scale.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pull reveal">
+      "The real competitive battle for Coupa isn't SAP vs. Coupa on features. It's whether the buyer's mental model is 'another procurement tool' or 'the network my spend runs on.' That's a messaging war, not a product war."
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 06: OTHER WORK -->
+<section id="work" style="border-bottom:none">
+  <div class="wrap">
+    <div class="sec-ey reveal">
+      <span class="sec-n">Part 06</span>
+      <span class="sec-nm">Other Relevant Work</span>
+    </div>
+    <p style="font-size:15px;color:var(--t2);max-width:600px;margin-bottom:36px" class="reveal">A few other things worth looking at — selected because they show the same muscles this role would use: cross-functional launches, competitive positioning, multi-buyer messaging, and complex-product storytelling.</p>
+    <div class="wgrid reveal">
+      <a href="https://bhanuexcalibur.github.io/Deltek/" class="wcard" target="_blank" rel="noopener">
+        <div class="wcard-tag">B2B SaaS / Enterprise PMM</div>
+        <h4>Deltek &ndash; Proof of Work</h4>
+        <p>Full PMM brief for Deltek, a project-based ERP targeting professional services and government contractors. Similar buyer dynamics to Coupa: enterprise procurement, multi-stakeholder decisions, and a platform that needs to be sold on outcomes rather than features.</p>
+        <span class="warr">&rarr;</span>
+      </a>
+      <a href="https://bhanuexcalibur.github.io/Boundless-PoW/" class="wcard" target="_blank" rel="noopener">
+        <div class="wcard-tag">Multi-buyer messaging / Compliance infra</div>
+        <h4>Boundless &ndash; Messaging Audit</h4>
+        <p>Three-buyer messaging rewrite for a compliance infrastructure product. The challenge: one product, three very different emotional registers, for a risk officer, a CTO, and a partnership lead. The same muscle Coupa needs when speaking to CPOs, CFOs, and supply chain VPs from the same platform.</p>
+        <span class="warr">&rarr;</span>
+      </a>
+      <a href="https://bhanuexcalibur.github.io/RelayFi_PoW/" class="wcard" target="_blank" rel="noopener">
+        <div class="wcard-tag">GTM brief / Product launch</div>
+        <h4>Relay Financial &ndash; Proof of Work</h4>
+        <p>Full GTM brief for a product feature launch, including target segment definition, launch sequencing, and success metrics. The structure maps directly to how I'd approach a strategic program brief at Coupa — from objective-setting through to field enablement.</p>
+        <span class="warr">&rarr;</span>
+      </a>
+      <a href="https://bhanuexcalibur.github.io/Veeva/" class="wcard" target="_blank" rel="noopener">
+        <div class="wcard-tag">Enterprise B2B / Cross-functional PMM</div>
+        <h4>Veeva &ndash; Proof of Work</h4>
+        <p>PMM brief for Veeva Systems: multi-buyer messaging across Commercial, Medical Affairs, and IT, with a competitive audit and customer story framework. The coordination challenge at Veeva closely mirrors what strategic programs PMM has to manage at Coupa — many stakeholders, one consistent platform narrative.</p>
+        <span class="warr">&rarr;</span>
+      </a>
+      <a href="https://bhanuexcalibur.github.io/ChargeBee/" class="wcard" target="_blank" rel="noopener">
+        <div class="wcard-tag">SaaS pricing / Revenue ops messaging</div>
+        <h4>Chargebee &ndash; Proof of Work</h4>
+        <p>Positioning and ICP brief for Chargebee's billing platform — specifically how to message usage-based pricing to RevOps, founders, and finance buyers. Shows how I build buyer maps for platforms where the same product needs to mean something different to each person in the buying committee.</p>
+        <span class="warr">&rarr;</span>
+      </a>
+      <a href="https://bhanuexcalibur.github.io/Continuous/" class="wcard" target="_blank" rel="noopener">
+        <div class="wcard-tag">Content strategy / B2B SaaS</div>
+        <h4>Continuous &ndash; Proof of Work</h4>
+        <p>Content strategy and messaging brief for a B2B SaaS product in the continuous testing space. Relevant here for the cross-functional coordination angle: the work involved bridging product, sales, and content into a single coherent launch narrative, which is what strategic programs is really about.</p>
+        <span class="warr">&rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNATURE -->
+<div class="wrap">
+  <div class="sig reveal">
+    <div>
+      <div class="sig-name">Bhanu <span>Kumar</span></div>
+      <div class="sig-det">
+        <a href="mailto:bhanukumar0902@gmail.com">bhanukumar0902@gmail.com</a><br>
+        <a href="https://linkedin.com/in/bhanuexcalibur" target="_blank" rel="noopener">linkedin.com/in/bhanuexcalibur</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+        <a href="https://x.com/excaliburbhanu" target="_blank" rel="noopener">@excaliburbhanu</a>
+      </div>
+    </div>
+    <div class="sig-btns">
+      <a class="sbtn pri" href="mailto:bhanukumar0902@gmail.com">
+        Get in touch
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8M7.5 3.5l3 3-3 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="sbtn ghost" href="https://drive.google.com/file/d/13p5z68SiAOO1ucX2W4DBkL_FVAAnEmGv/view" target="_blank" rel="noopener">Full resume &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ─── NAV ─── */
+function toggleMob(){
+  document.getElementById('mob').classList.toggle('open');
+  document.getElementById('hbg').classList.toggle('open');
+}
+function closeMob(){
+  document.getElementById('mob').classList.remove('open');
+  document.getElementById('hbg').classList.remove('open');
+}
+
+/* ─── AUDIT TABS ─── */
+function swATab(id, btn){
+  document.querySelectorAll('.apanel').forEach(function(p){ p.classList.remove('on'); });
+  document.querySelectorAll('.atab').forEach(function(b){ b.classList.remove('on'); });
+  document.getElementById('ap-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+
+/* ─── ICP PERSONAS ─── */
+var personas = {
+  cpo: {
+    label: 'Buyer 01',
+    name: 'The CPO',
+    role: 'Chief Procurement Officer (Global enterprise, 5,000+ employees, manufacturing or financial services)',
+    pains: [
+      'Spends too much time explaining to the CFO why procurement can\'t give real-time spend data',
+      'Running four or five point solutions that don\'t talk to each other — supplier management in one, contracts in another, payments in a third',
+      'Gets blindsided by supply disruptions because risk signals are in a spreadsheet that nobody updates',
+      'Can\'t run pricing experiments or model alternate sourcing scenarios without IT involvement'
+    ],
+    goals: [
+      'Wants a single procurement source of truth that feeds into the board\'s financial reporting',
+      'Needs supplier risk signals before they become operational problems',
+      'Cares about showing that procurement is a strategic function, not just a cost center',
+      'Wants to be able to say "we modeled this" when a sourcing decision goes sideways'
+    ],
+    message: '"Procurement is strategic when it can predict. Right now, most CPOs are reactive by design — not because they lack judgment, but because their data arrives too late. That\'s the gap Coupa closes."'
+  },
+  cfo: {
+    label: 'Buyer 02',
+    name: 'The CFO',
+    role: 'CFO at scaling enterprise ($500M+ revenue, preparing for IPO or major expansion, heavy indirect spend)',
+    pains: [
+      'Can\'t get a clean view of total spend across categories, regions, and entities without a manual reconciliation exercise',
+      'Worried that procurement compliance isn\'t reflected in what actually gets purchased',
+      'Month-end close still involves someone pulling data from multiple systems and hoping the numbers match',
+      'AI vendors keep promising ROI but can\'t connect it to a P&L line'
+    ],
+    goals: [
+      'Wants spend data that\'s audit-ready and board-presentable without being rebuilt every quarter',
+      'Needs procurement to enforce policy automatically, not via approval chains that take days',
+      'Cares about "margins multiply" as an operating principle — every dollar saved in procurement is a dollar on the bottom line',
+      'Wants to understand which spend is strategic and which is just inertia'
+    ],
+    message: '"The CFO doesn\'t want a procurement system. They want a number they can stand behind. Coupa makes the procurement number clean enough to live in the board deck without a footnote."'
+  },
+  scvp: {
+    label: 'Buyer 03',
+    name: 'The Supply Chain VP',
+    role: 'VP Supply Chain (Manufacturing, FMCG, or retail — direct spend, multi-tier supplier base, disruption exposure)',
+    pains: [
+      'Tariff uncertainty and geopolitical shifts mean the network they designed three years ago is no longer the right one',
+      'Supplier onboarding is slow because nobody owns the data handoff between procurement and supply chain ops',
+      'Demand modeling lives in Excel and gets rebuilt from scratch every planning cycle',
+      'The word "resilience" appears in every strategy deck but nobody can define what the network looks like if Tier 2 fails'
+    ],
+    goals: [
+      'Wants to model 20 network scenarios in the time it currently takes to model one',
+      'Needs supplier intelligence that surfaces risk before it becomes an ops problem',
+      'Cares about connecting sourcing decisions to actual supply chain cost — not just per-unit cost but landed, total cost of ownership',
+      'Wants a system that learns from the network, not just from internal data'
+    ],
+    message: '"Supply chain resilience isn\'t a plan. It\'s a test you run before the disruption, not after it. Coupa\'s design-to-pay platform is the difference between knowing your network held and hoping it does."'
+  }
+};
+
+var order = ['cpo','cfo','scvp'];
+
+function renderPersonas(active){
+  var tabs = document.getElementById('ptabs');
+  var card = document.getElementById('pcard');
+  tabs.innerHTML = order.map(function(k){
+    var p = personas[k];
+    return '<button class="ptab'+(k===active?' on':'')+'" onclick="renderPersonas(\''+k+'\')">'
+      +'<div class="ptab-label">'+p.label+'</div>'
+      +'<div class="ptab-name">'+p.name+'</div>'
+      +'<div class="ptab-role">'+p.role.split(' (')[0]+'</div>'
+      +'</button>';
+  }).join('');
+  var p = personas[active];
+  card.innerHTML =
+    '<div class="pcard-hdr">'
+    +'<span class="tag">'+p.label+'</span>'
+    +'<h4>'+p.name+'</h4>'
+    +'<p>'+p.role+'</p>'
+    +'</div>'
+    +'<div class="pcard-body">'
+    +'<div class="pcard-col"><h5>What keeps them up</h5><ul>'
+    +p.pains.map(function(x){ return '<li>'+x+'</li>'; }).join('')
+    +'</ul></div>'
+    +'<div class="pcard-col"><h5>What they\'re actually optimizing for</h5><ul>'
+    +p.goals.map(function(x){ return '<li>'+x+'</li>'; }).join('')
+    +'</ul></div>'
+    +'<div class="pcard-msg"><h5>How to open the conversation</h5><p>'+p.message+'</p></div>'
+    +'</div>';
+}
+renderPersonas('cpo');
+
+/* ─── READING PROGRESS ─── */
+window.addEventListener('scroll', function(){
+  var doc = document.documentElement;
+  var scrolled = doc.scrollTop || document.body.scrollTop;
+  var total = doc.scrollHeight - doc.clientHeight;
+  document.getElementById('rbar').style.width = (total > 0 ? (scrolled/total)*100 : 0)+'%';
+});
+
+/* ─── SCROLL REVEAL ─── */
+if('IntersectionObserver' in window){
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }
+    });
+  },{ threshold: 0.06, rootMargin:'0px 0px -16px 0px' });
+  document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+} else {
+  document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+}
+window.addEventListener('load', function(){
+  document.querySelectorAll('.reveal').forEach(function(el){
+    if(el.getBoundingClientRect().top < window.innerHeight){ el.classList.add('in'); }
+  });
+});
+</script>
+</body>
+</html>
